@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @RestController
-@Api(description = "IP接口123")
+@Api(description = "IP接口")
 @RequestMapping("/minshang/common/ip")
 @Transactional
 public class IpInfoController {
