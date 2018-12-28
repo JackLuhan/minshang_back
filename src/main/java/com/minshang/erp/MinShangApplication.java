@@ -18,7 +18,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableCaching
 //启用异步
 @EnableAsync
-//启用自带定时任务
+//启用自带定时任务1
 @EnableScheduling
 @MapperScan("com.minshang.erp.modules.*.mapper")
 public class MinShangApplication {
