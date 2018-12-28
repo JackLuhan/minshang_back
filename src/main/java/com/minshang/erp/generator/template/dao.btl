@@ -1,6 +1,6 @@
 package ${entity.daoPackage};
 
-import MinShangBaseDao;
+import com.minshang.erp.base.MinShangBaseDao;
 import ${entity.entityPackage}.${entity.className};
 
 import java.util.List;

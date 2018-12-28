@@ -1,10 +1,10 @@
 package ${entity.controllerPackage};
 
-import MinShangBaseController;
-import PageUtil;
-import ResultUtil;
-import PageVo;
-import Result;
+import com.minshang.erp.base.MinShangBaseController;
+import com.minshang.erp.common.utils.PageUtil;
+import com.minshang.erp.common.utils.ResultUtil;
+import com.minshang.erp.common.vo.PageVo;
+import com.minshang.erp.common.vo.Result;
 import ${entity.entityPackage}.${entity.className};
 import ${entity.servicePackage}.${entity.className}Service;
 import io.swagger.annotations.Api;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ${entity.className}Controller extends MinShangBaseController<${entity.className}, ${entity.primaryKeyType}>{
 
-    @Autowired
+    @Resource
     private ${entity.className}Service ${entity.classNameLowerCase}Service;
 
     @Override

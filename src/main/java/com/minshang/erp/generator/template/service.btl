@@ -1,6 +1,6 @@
 package ${entity.servicePackage};
 
-import MinShangBaseService;
+import com.minshang.erp.base.MinShangBaseService;
 import ${entity.entityPackage}.${entity.className};
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
