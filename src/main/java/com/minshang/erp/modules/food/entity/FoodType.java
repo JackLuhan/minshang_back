@@ -1,5 +1,6 @@
 package com.minshang.erp.modules.food.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.minshang.erp.base.MinShangBaseEntity;
 import com.minshang.erp.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -9,6 +10,8 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.List;
 
 /**
  * @author 后羿i
@@ -34,5 +37,10 @@ public class FoodType extends MinShangBaseEntity {
 
     @ApiModelProperty(value = "菜品编码")
     private String foodCode;
+
+    @Transient
+    @TableField(exist=false)
+    @ApiModelProperty(value = "菜品")
+    private List<Food> foodList;
 
 }

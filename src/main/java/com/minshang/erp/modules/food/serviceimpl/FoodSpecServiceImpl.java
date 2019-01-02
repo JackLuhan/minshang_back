@@ -3,10 +3,11 @@ package com.minshang.erp.modules.food.serviceimpl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.food.dao.FoodTypeDao;
-import com.minshang.erp.modules.food.entity.Food;
+import com.minshang.erp.modules.food.dao.FoodSpecDao;
+import com.minshang.erp.modules.food.entity.FoodLib;
+import com.minshang.erp.modules.food.entity.FoodSpec;
 import com.minshang.erp.modules.food.entity.FoodType;
-import com.minshang.erp.modules.food.service.FoodTypeService;
+import com.minshang.erp.modules.food.service.FoodSpecService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,60 +17,49 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 菜品分类接口实现
+ * 菜品规格接口实现
  * @author 后羿i
  */
 @Slf4j
 @Service
 @Transactional
-public class FoodTypeServiceImpl implements FoodTypeService {
+public class FoodSpecServiceImpl implements FoodSpecService {
 
     @Autowired
-    private FoodTypeDao foodTypeDao;
-    @Autowired
-    private FoodTypeService foodTypeService;
+    private FoodSpecDao foodSpecDao;
+    @Resource
+    private FoodSpecService foodSpecService;
 
     @Override
-    public FoodTypeDao getRepository() {
-        return foodTypeDao;
+    public FoodSpecDao getRepository() {
+        return foodSpecDao;
     }
 
-    /**
-     * @Author 后羿i
-     * @Description 修改菜品分类
-     * @Date
-     * @Param
-     * @Return
-     **/
-    @Override
-    public FoodType editFoodType(FoodType foodType) {
-        //根据id查询单个菜品分类数据
-        FoodType foodTypeOne = foodTypeDao.getOne(foodType.getId());
-        foodTypeOne.setFoodTypeName(foodType.getFoodTypeName());
-        return foodTypeService.update(foodTypeOne);
-    }
 
+    //菜品规格根据条件分页查询
     @Override
-    public Page<FoodType> findByCondition(FoodType foodType, SearchVo searchVo, Pageable pageable) {
-        return foodTypeDao.findAll(new Specification<FoodType>() {
+    public Page<FoodSpec> findByCondition(FoodSpec foodSpec, SearchVo searchVo, Pageable pageable) {
+
+        return foodSpecDao.findAll(new Specification<FoodSpec>() {
             @Nullable
             @Override
-            public Predicate toPredicate(Root<FoodType> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<FoodSpec> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
                 //根据菜品库名字查询
-                Path<String> nameField = root.get("foodTypeName");
+                Path<String> nameField = root.get("foodSpecName");
                 Path<Date> createTimeField=root.get("createTime");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 //模糊搜素
-                if(StrUtil.isNotBlank(foodType.getFoodTypeName())) {
-                    list.add(cb.like(nameField, '%' + foodType.getFoodTypeName() + '%'));
+                if(StrUtil.isNotBlank(foodSpec.getFoodSpecName())) {
+                    list.add(cb.like(nameField, '%' + foodSpec.getFoodSpecName() + '%'));
                 }
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
@@ -83,5 +73,13 @@ public class FoodTypeServiceImpl implements FoodTypeService {
                 return null;
             }
         }, pageable);
+    }
+
+    @Override
+    public FoodSpec editFoodSpec(FoodSpec foodSpec) {
+        //根据id查询单个菜品分类数据
+        FoodSpec foodSpecOne = foodSpecDao.getOne(foodSpec.getId());
+        foodSpecOne.setFoodSpecName(foodSpec.getFoodSpecName());
+        return foodSpecService.update(foodSpecOne);
     }
 }

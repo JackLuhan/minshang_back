@@ -3,10 +3,10 @@ package com.minshang.erp.modules.food.serviceimpl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.food.dao.FoodTypeDao;
-import com.minshang.erp.modules.food.entity.Food;
-import com.minshang.erp.modules.food.entity.FoodType;
-import com.minshang.erp.modules.food.service.FoodTypeService;
+import com.minshang.erp.modules.food.dao.FoodChargeDao;
+import com.minshang.erp.modules.food.entity.FoodCharge;
+import com.minshang.erp.modules.food.entity.FoodCharge;
+import com.minshang.erp.modules.food.service.FoodChargeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,54 +22,37 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 菜品分类接口实现
+ * 菜品加料接口实现
  * @author 后羿i
  */
 @Slf4j
 @Service
 @Transactional
-public class FoodTypeServiceImpl implements FoodTypeService {
+public class FoodChargeServiceImpl implements FoodChargeService {
 
     @Autowired
-    private FoodTypeDao foodTypeDao;
-    @Autowired
-    private FoodTypeService foodTypeService;
+    private FoodChargeDao foodChargeDao;
 
     @Override
-    public FoodTypeDao getRepository() {
-        return foodTypeDao;
-    }
-
-    /**
-     * @Author 后羿i
-     * @Description 修改菜品分类
-     * @Date
-     * @Param
-     * @Return
-     **/
-    @Override
-    public FoodType editFoodType(FoodType foodType) {
-        //根据id查询单个菜品分类数据
-        FoodType foodTypeOne = foodTypeDao.getOne(foodType.getId());
-        foodTypeOne.setFoodTypeName(foodType.getFoodTypeName());
-        return foodTypeService.update(foodTypeOne);
+    public FoodChargeDao getRepository() {
+        return foodChargeDao;
     }
 
     @Override
-    public Page<FoodType> findByCondition(FoodType foodType, SearchVo searchVo, Pageable pageable) {
-        return foodTypeDao.findAll(new Specification<FoodType>() {
+    public Page<FoodCharge> findByCondition(FoodCharge foodCharge, SearchVo searchVo, Pageable pageable) {
+        return foodChargeDao.findAll(new Specification<FoodCharge>() {
             @Nullable
             @Override
-            public Predicate toPredicate(Root<FoodType> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<FoodCharge> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
                 //根据菜品库名字查询
-                Path<String> nameField = root.get("foodTypeName");
+                Path<String> nameField = root.get("foodChargeName");
                 Path<Date> createTimeField=root.get("createTime");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 //模糊搜素
-                if(StrUtil.isNotBlank(foodType.getFoodTypeName())) {
-                    list.add(cb.like(nameField, '%' + foodType.getFoodTypeName() + '%'));
+                if(StrUtil.isNotBlank(foodCharge.getFoodChargeName())) {
+                    list.add(cb.like(nameField, '%' + foodCharge.getFoodChargeName() + '%'));
                 }
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
