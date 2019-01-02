@@ -11,7 +11,6 @@ import com.minshang.erp.modules.food.dao.FoodlibOrganizationDao;
 import com.minshang.erp.modules.food.dao.OrganizationDao;
 import com.minshang.erp.modules.food.entity.FoodLib;
 import com.minshang.erp.modules.food.entity.FoodlibOrganization;
-import com.minshang.erp.modules.food.entity.Organization;
 import com.minshang.erp.modules.food.service.FoodLibService;
 import com.minshang.erp.modules.food.service.FoodlibOrganizationService;
 import com.minshang.erp.modules.food.service.OrganizationService;
@@ -22,9 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 
 /**

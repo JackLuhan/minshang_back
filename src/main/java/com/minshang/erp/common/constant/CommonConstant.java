@@ -1,5 +1,8 @@
 package com.minshang.erp.common.constant;
 
+import java.math.BigDecimal;
+import java.util.PrimitiveIterator;
+
 /**
  * 常量
  * @author houyi
@@ -175,4 +178,27 @@ public interface CommonConstant {
      * 阿里云OSS存储
      */
     Integer OSS_ALI = 2;
+
+    /**
+     * 默认加价方式 0表示不加价
+     */
+    Integer PRICE_UP_TYPE_NO =0;
+
+    /**
+     * 默认加价方式 1表示加价
+     */
+    Integer PRICE_UP_TYPE_YES =1;
+
+    BigDecimal PRICE_UP_VALUE_NO= BigDecimal.valueOf(0);
+    /**
+     * 是否时价 0 是时价 1 不是时价
+     */
+    Integer IS_PRICE_YES=0;
+    Integer IS_PRICE_NO=1;
+
+    /**
+     * 是否时推荐菜 0 推荐 1 不推荐
+     */
+    Integer IS_RECOMMEND_FOOD_YES=0;
+    Integer IS_RECOMMEND_FOOD_NO=1;
 }

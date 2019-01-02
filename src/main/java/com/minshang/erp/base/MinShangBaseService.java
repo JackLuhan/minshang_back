@@ -1,10 +1,18 @@
 package com.minshang.erp.base;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
+import com.minshang.erp.common.vo.SearchVo;
+import com.minshang.erp.modules.food.entity.FoodPracticeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 
+import javax.persistence.criteria.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -136,4 +144,6 @@ public interface MinShangBaseService<E, ID extends Serializable> {
     public default long count(Specification<E> spec) {
         return getRepository().count(spec);
     }
+
+
 }
