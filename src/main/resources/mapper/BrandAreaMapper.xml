@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minshang.erp.modules.brandarea.mapper.BrandAreaMapper">
+
+    <!--<select id="get" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		select `id`,`brandname`,`areaname`,`user_id`,`status`,`createtime`,`modifytime` from tb_dini_brand_area where id = #{value}
+	</select>
+
+    <select id="list" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+        select
+        b.`id`,b.`brandname`,b.`areaname`,b.`user_id`,u.`username`,u.`name`,b.`status`,b.`createtime`,b.`modifytime`
+        from tb_dini_brand_area b , sys_user u
+        WHERE b.user_id = u.user_id
+        <if test="id != null and id != ''">and id = #{id}</if>
+        <if test="brandname != null and brandname != ''">and brandname = #{brandname}</if>
+        <if test="areaname != null and areaname != ''">and areaname = #{areaname}</if>
+        <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+        <if test="username != null and username != ''">and username = #{username}</if>
+        <if test="name != null and name != ''">and name = #{name}</if>
+        <if test="status != null and status != ''">and status = #{status}</if>
+        <if test="createtime != null and createtime != ''">and createtime = #{createtime}</if>
+        <if test="modifytime != null and modifytime != ''">and modifytime = #{modifytime}</if>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tb_dini_brand_area
+        <where>
+            <if test="id != null and id != ''">and id = #{id}</if>
+            <if test="brandname != null and brandname != ''">and brandname = #{brandname}</if>
+            <if test="areaname != null and areaname != ''">and areaname = #{areaname}</if>
+            <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+            <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="createtime != null and createtime != ''">and createtime = #{createtime}</if>
+            <if test="modifytime != null and modifytime != ''">and modifytime = #{modifytime}</if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		insert into tb_dini_brand_area
+		(
+			`id`, 
+			`brandname`, 
+			`areaname`, 
+			`user_id`, 
+			`status`, 
+			`createtime`, 
+			`modifytime`
+		)
+		values
+		(
+			#{id}, 
+			#{brandname}, 
+			#{areaname}, 
+			#{userId}, 
+			0,
+			NOW(),
+			#{modifytime}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+        update tb_dini_brand_area
+        <set>
+            <if test="brandname != null">`brandname` = #{brandname},</if>
+            <if test="areaname != null">`areaname` = #{areaname},</if>
+            <if test="userId != null">`user_id` = #{userId},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="createtime != null">`createtime` = #{createtime},</if>
+            `modifytime` = NOW()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from tb_dini_brand_area where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from tb_dini_brand_area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="changeStatus" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+  	UPDATE tb_dini_brand_area SET status = #{status}
+	where brandid = #{brandid}
+  </update>
+
+    <select id="areaname" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		select `id`,`areaname`from tb_dini_brand_area
+	</select>-->
+
+
+    <select id="findByBrandAreaId" resultType="com.minshang.erp.modules.brandarea.entity.BrandArea">
+        SELECT b.brandname,b.areaname
+        FROM t_organization o
+        LEFT JOIN t_brand_area b ON o.brand_area_id = b.id
+        WHERE brand_area_id =  #{brandAreaId}
+    </select>
+
+</mapper>

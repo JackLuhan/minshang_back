@@ -1,5 +1,6 @@
 package com.minshang.erp.modules.base.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minshang.erp.base.MinShangBaseEntity;
 import com.minshang.erp.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.annotations.TableField;
@@ -11,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -88,4 +90,20 @@ public class User extends MinShangBaseEntity {
     @TableField(exist=false)
     @ApiModelProperty(value = "导入数据时使用")
     private Integer defaultRole;
+
+    // 原有人员表————添加字段
+    @ApiModelProperty(value = "真实姓名")
+    private String name;
+
+    @ApiModelProperty(value = "出身日期")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    private Date birth;
+
+    @ApiModelProperty(value = "爱好")
+    private String hobby;
+
+    @ApiModelProperty(value = "机构id")
+    private String orgId;
+
+
 }

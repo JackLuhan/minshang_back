@@ -1,11 +1,11 @@
-package com.minshang.erp.modules.food.serviceimpl;
+package com.minshang.erp.modules.brandarea.serviceimpl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.food.dao.OrganizationDao;
-import com.minshang.erp.modules.food.entity.Organization;
-import com.minshang.erp.modules.food.service.OrganizationService;
+import com.minshang.erp.modules.brandarea.dao.BrandAreaDao;
+import com.minshang.erp.modules.brandarea.entity.BrandArea;
+import com.minshang.erp.modules.brandarea.service.BrandAreaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,45 +15,48 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
- * 机构表接口实现
- * @author 后羿i
+ * 品牌区域接口实现
+ * @author lcmaijia
  */
 @Slf4j
 @Service
 @Transactional
-public class OrganizationServiceImpl implements OrganizationService {
+public class BrandAreaServiceImpl implements BrandAreaService {
 
     @Autowired
-    private OrganizationDao organizationDao;
+    private BrandAreaDao brandAreaDao;
 
     @Override
-    public OrganizationDao getRepository() {
-        return organizationDao;
+    public BrandAreaDao getRepository() {
+        return brandAreaDao;
     }
 
     @Override
-    public Page<Organization> findByCondition(Organization organization, SearchVo searchVo, Pageable pageable) {
-        return organizationDao.findAll(new Specification<Organization>() {
+    public Page<BrandArea> findByCondition(BrandArea brandArea, SearchVo searchVo, Pageable pageable) {
+        return brandAreaDao.findAll(new Specification<BrandArea>() {
             @Nullable
             @Override
-            public Predicate toPredicate(Root<Organization> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+            public Predicate toPredicate(Root<BrandArea> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
                 //根据品牌名字查询
-                Path<String> nameField = root.get("orgName");
+                Path<String> nameField = root.get("brandname");
                 Path<Date> createTimeField=root.get("createTime");
+                //根据区域名字查询
+                Path<String> areaname = root.get("areaname");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 //模糊搜素
-                if(StrUtil.isNotBlank(organization.getOrgName())) {
-                    list.add(cb.like(nameField, '%' + organization.getOrgName() + '%'));
+                if(StrUtil.isNotBlank(brandArea.getAreaname())) {
+                    list.add(cb.like(areaname, '%' + brandArea.getAreaname() + '%'));
+                }
+                if(StrUtil.isNotBlank(brandArea.getBrandname())) {
+                    list.add(cb.like(nameField, '%' + brandArea.getBrandname() + '%'));
                 }
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
