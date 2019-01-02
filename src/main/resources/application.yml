@@ -158,9 +158,9 @@ swagger:
   version: 1.0.0
   termsOfServiceUrl:
   contact:
-    name: houyi
+    name: xiaowuG
     url:
-    email: 113174061210@qq.com
+    email:
 
 # Mybatis-plus
 mybatis-plus:
