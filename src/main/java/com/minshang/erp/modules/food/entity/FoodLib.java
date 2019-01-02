@@ -20,7 +20,7 @@ public class FoodLib extends MinShangBaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "食品库名称")
+    @ApiModelProperty(value = "菜品库名称")
     private String foodLibName;
 
     @ApiModelProperty(value = "机构名称")
