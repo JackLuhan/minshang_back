@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.minshang.erp.modules.shop.mapper.ShopUnitMapper">
 
+
+
     <insert id="insertShopUnit" parameterType="com.minshang.erp.modules.shop.entity.ShopUnit">
         insert into t_shop_unit
         (id,shop_unit_code,shop_unit_name,create_time,del_flag,status)

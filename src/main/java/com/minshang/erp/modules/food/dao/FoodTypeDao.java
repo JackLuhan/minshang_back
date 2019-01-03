@@ -1,6 +1,7 @@
 package com.minshang.erp.modules.food.dao;
 
 import com.minshang.erp.base.MinShangBaseDao;
+import com.minshang.erp.modules.base.entity.Department;
 import com.minshang.erp.modules.food.entity.FoodType;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,4 +13,5 @@ import java.util.List;
  */
 public interface FoodTypeDao extends MinShangBaseDao<FoodType,String> {
 
+    List<FoodType> findByPid(String pid);
 }

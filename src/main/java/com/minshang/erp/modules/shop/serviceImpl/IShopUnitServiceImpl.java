@@ -6,6 +6,8 @@ import com.minshang.erp.modules.shop.mapper.ShopUnitMapper;
 import com.minshang.erp.modules.shop.service.IShopUnitService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @ClassName ShopUnitServiceImpl
  * @Description 物品列表逻辑层
@@ -15,5 +17,11 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class IShopUnitServiceImpl extends ServiceImpl<ShopUnitMapper, ShopUnit> implements IShopUnitService {
+    @Resource
+    private ShopUnitMapper shopUnitMapper;
 
+    @Override
+    public Integer insertShopUnit(ShopUnit shopUnit) {
+        return shopUnitMapper.insertShopUnit(shopUnit);
+    }
 }

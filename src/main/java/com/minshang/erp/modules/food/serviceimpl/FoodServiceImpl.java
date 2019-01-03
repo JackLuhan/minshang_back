@@ -62,10 +62,13 @@ public class FoodServiceImpl implements FoodService {
             public Predicate toPredicate(Root<Food> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
                 //根据菜品库名字查询
                 Path<String> nameField = root.get("foodName");
+                Path<String> idField = root.get("foodTypeId");
                 Path<Date> createTimeField=root.get("createTime");
 
                 List<Predicate> list = new ArrayList<Predicate>();
-
+                if(StrUtil.isNotBlank(food.getFoodTypeId())) {
+                    list.add(cb.like(idField, food.getFoodTypeId()));
+                }
                 //模糊搜素
                 if(StrUtil.isNotBlank(food.getFoodName())) {
                     list.add(cb.like(nameField, '%' + food.getFoodName() + '%'));

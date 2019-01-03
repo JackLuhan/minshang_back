@@ -2,6 +2,7 @@ package com.minshang.erp.modules.food.dao;
 
 import com.minshang.erp.base.MinShangBaseDao;
 import com.minshang.erp.modules.food.entity.Food;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
