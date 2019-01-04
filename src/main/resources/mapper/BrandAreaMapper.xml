@@ -109,7 +109,8 @@
         SELECT b.brandname,b.areaname
         FROM t_organization o
         LEFT JOIN t_brand_area b ON o.brand_area_id = b.id
-        WHERE brand_area_id =  #{brandAreaId}
+        WHERE o.brand_area_id =  #{brandAreaId}
+        GROUP BY b.id
     </select>
 
 </mapper>

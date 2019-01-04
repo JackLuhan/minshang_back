@@ -1,30 +1,29 @@
 package com.minshang.erp.modules.food.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.base.MinShangBaseController;
 import com.minshang.erp.common.utils.PageUtil;
-import com.minshang.erp.common.utils.PageUtils;
-import com.minshang.erp.common.utils.Query;
 import com.minshang.erp.common.utils.ResultUtil;
 import com.minshang.erp.common.vo.PageVo;
 import com.minshang.erp.common.vo.Result;
 import com.minshang.erp.common.vo.SearchVo;
 import com.minshang.erp.modules.brandarea.entity.BrandArea;
+import com.minshang.erp.modules.brandarea.service.BrandAreaService;
 import com.minshang.erp.modules.brandarea.service.IBrandAreaService;
 import com.minshang.erp.modules.food.dao.OrganizationDao;
 import com.minshang.erp.modules.food.entity.Organization;
-import com.minshang.erp.modules.food.service.FoodlibOrganizationService;
 import com.minshang.erp.modules.food.service.OrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -41,10 +40,12 @@ public class OrganizationController extends MinShangBaseController<Organization,
     private OrganizationService organizationService;
     @Autowired
     private OrganizationDao organizationDao;
-    @Autowired
-    private FoodlibOrganizationService foodlibOrganizationService;
     @Resource
     private IBrandAreaService iBrandAreaService;
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+    @Resource
+    private BrandAreaService brandAreaService;
 
     @Override
     public OrganizationService getService() {
@@ -71,10 +72,67 @@ public class OrganizationController extends MinShangBaseController<Organization,
 
         for (Organization o : page.getContent()) {
         List<BrandArea> list = iBrandAreaService.findByBrandAreaId(o.getBrandAreaId());
-            o.setBrandArea(list);
+            o.setBrandAreas(list);
         }
         return new ResultUtil<Page<Organization>>().setData(page);
     }
+
+    @RequestMapping(value = "/addOrganization",method = RequestMethod.POST)
+    @ApiOperation(value = "添加机构")
+    public Result<Object> regist(@ModelAttribute Organization organization,@RequestParam(required = false) String[] brandArea){
+
+        // 判断是否缺少字段
+        if(StrUtil.isBlank(organization.getOrgName())){
+            return new ResultUtil<Object>().setErrorMsg("缺少必需表单字段");
+        }
+
+        // 判断机构名是否重复
+        if(organizationService.findByOrgName(organization.getOrgName())!=null){
+            return new ResultUtil<Object>().setErrorMsg("该机构已被注册");
+        }
+        //删除缓存
+        redisTemplate.delete("organization::"+organization.getOrgName());
+
+        Organization o = organizationService.save(organization);
+        if(o==null){
+            return new ResultUtil<Object>().setErrorMsg("添加失败");
+        }
+
+        // 将品牌区域中所有数据遍历
+        if(brandArea!=null&&brandArea.length>0){
+            for (String s : brandArea) {
+                BrandArea ba = new BrandArea();
+                ba.setId(o.getBrandAreaId());
+                brandAreaService.save(ba);
+            }
+        }
+        return new ResultUtil<Object>().setSuccessMsg("添加成功");
+    }
+
+    @RequestMapping(value = "/editOrganization",method = RequestMethod.POST)
+    @ApiOperation(value = "修改机构信息")
+    public Result<Object> editOrg(@ModelAttribute Organization o){
+        // 获取orgId 和对应的orgName
+        Organization org = organizationService.get(o.getId());
+        org.setParentId(o.getParentId());
+        org.setOrgName(o.getOrgName());
+        org.setAddress(o.getAddress());
+        org.setActivationkey(o.getActivationkey());
+        org.setShoptype(o.getShoptype());
+        org.setShopUser(o.getShopUser());
+        org.setTelphoneno(o.getTelphoneno());
+        org.setOrgType(o.getOrgType());
+        org.setBrandAreaId(o.getBrandAreaId());
+        org.setUpdateBy(o.getUpdateBy());
+
+        // 修改
+        Organization organization = organizationService.update(org);
+        if(organization==null){
+            return new ResultUtil<Object>().setErrorMsg("修改失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("修改成功");
+    }
+
 
 
 }

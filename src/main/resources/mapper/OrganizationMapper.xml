@@ -3,40 +3,24 @@
 
 <mapper namespace="com.minshang.erp.modules.organization.mapper.OrganizationMapper">
 
-    <!--<select id="get" resultType="com.minshang.erp.system.domain.OrganizationDO">
-		select
-        o1.`org_id`,o2.`org_name` AS pOrgName,o1.`org_name`,o1.`org_type`,o1.`org_lv`,o1.`industryid`,o1.`shoptype`,o1.`telphoneno`,
-        o1.`address`,o1.`shop_user`,o1.`user_id`,o1.`createtime`,o1.`modifytime`,o1.`activationkey`,o1.`status`,
-        o1.`brand_area_id`,b.`brandname`,b.`areaname`
-        FROM tb_sys_organization o1
-        LEFT JoIN tb_dini_brand_area b on o1.`brand_area_id` = b.id
-        LEFT JOIN tb_sys_organization o2 ON o2.org_id = o1.parent_id
-		where o1.`org_id` = #{value}
-	</select>-->
+    <!--<select id="get" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		select `id`,`brandname`,`areaname`,`user_id`,`status`,`createtime`,`modifytime` from tb_dini_brand_area where id = #{value}
+	</select>
 
-    <select id="list" resultType="com.minshang.erp.modules.food.entity.Organization">
-        SELECT o.id,o.parent_id,o.org_name,o.create_by,o.create_time,o.del_flag,o.update_by,o.update_time,o.status,
-        o.activationkey,o.address,o.brand_area_id,o.org_type,o.shop_user,o.shoptype,o.telphoneno,b.brandname,b.areaname
-        FROM t_organization o
-        LEFT JOIN t_brand_area b ON o.brand_area_id = b.id
-        <where>
+    <select id="list" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+        select
+        b.`id`,b.`brandname`,b.`areaname`,b.`user_id`,u.`username`,u.`name`,b.`status`,b.`createtime`,b.`modifytime`
+        from tb_dini_brand_area b , sys_user u
+        WHERE b.user_id = u.user_id
         <if test="id != null and id != ''">and id = #{id}</if>
-        <if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
-        <if test="orgName != null and orgName != ''">and org_name = #{orgName}</if>
-        <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
-        <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
-        <if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
-        <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
-        <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+        <if test="brandname != null and brandname != ''">and brandname = #{brandname}</if>
+        <if test="areaname != null and areaname != ''">and areaname = #{areaname}</if>
+        <if test="userId != null and userId != ''">and user_id = #{userId}</if>
+        <if test="username != null and username != ''">and username = #{username}</if>
+        <if test="name != null and name != ''">and name = #{name}</if>
         <if test="status != null and status != ''">and status = #{status}</if>
-        <if test="activationkey != null and activationkey != ''">and activationkey = #{activationkey}</if>
-        <if test="address != null and address != ''">and address = #{address}</if>
-        <if test="brandAreaId != null and brandAreaId != ''">and brand_area_id = #{brandAreaId}</if>
-        <if test="orgType != null and orgType != ''">and org_type = #{orgType}</if>
-        <if test="shopUser != null and shopUser != ''">and shop_user = #{shopUser}</if>
-        <if test="shoptype != null and shoptype != ''">and shoptype = #{shoptype}</if>
-        <if test="telphoneno != null and telphoneno != ''">and telphoneno = #{telphoneno}</if>
-        </where>
+        <if test="createtime != null and createtime != ''">and createtime = #{createtime}</if>
+        <if test="modifytime != null and modifytime != ''">and modifytime = #{modifytime}</if>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
@@ -51,100 +35,82 @@
     </select>
 
     <select id="count" resultType="int">
-        select count(*) from t_organization
+        select count(*) from tb_dini_brand_area
         <where>
             <if test="id != null and id != ''">and id = #{id}</if>
-            <if test="parentId != null and parentId != ''">and parent_id = #{parentId}</if>
-            <if test="orgName != null and orgName != ''">and org_name = #{orgName}</if>
-            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
-            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
-            <if test="delFlag != null and delFlag != ''">and del_flag = #{delFlag}</if>
-            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
-            <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+            <if test="brandname != null and brandname != ''">and brandname = #{brandname}</if>
+            <if test="areaname != null and areaname != ''">and areaname = #{areaname}</if>
+            <if test="userId != null and userId != ''">and user_id = #{userId}</if>
             <if test="status != null and status != ''">and status = #{status}</if>
-            <if test="activationkey != null and activationkey != ''">and activationkey = #{activationkey}</if>
-            <if test="address != null and address != ''">and address = #{address}</if>
-            <if test="brandAreaId != null and brandAreaId != ''">and brand_area_id = #{brandAreaId}</if>
-            <if test="orgType != null and orgType != ''">and org_type = #{orgType}</if>
-            <if test="shopUser != null and shopUser != ''">and shop_user = #{shopUser}</if>
-            <if test="shoptype != null and shoptype != ''">and shoptype = #{shoptype}</if>
-            <if test="telphoneno != null and telphoneno != ''">and telphoneno = #{telphoneno}</if>
+            <if test="createtime != null and createtime != ''">and createtime = #{createtime}</if>
+            <if test="modifytime != null and modifytime != ''">and modifytime = #{modifytime}</if>
         </where>
     </select>
 
-    <!--<insert id="save" parameterType="com.minshang.erp.system.domain.OrganizationDO">
-		insert into tb_sys_organization
+    <insert id="save" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		insert into tb_dini_brand_area
 		(
-			`org_id`,
-			`parent_id`,
-			`org_name`,
-			`org_type`,
-			`org_lv`,
-			`industryid`,
-			`shoptype`,
-			`telphoneno`,
-			`address`,
-			`shop_user`,
-			`user_id`,
-			`createtime`,
-			`modifytime`,
-			`activationkey`,
-			`status`,
-			`brand_area_id`
+			`id`, 
+			`brandname`, 
+			`areaname`, 
+			`user_id`, 
+			`status`, 
+			`createtime`, 
+			`modifytime`
 		)
 		values
 		(
-			#{orgId},
-			#{parentId},
-			#{orgName},
-			#{orgType},
-			#{orgLv},
-			#{industryid},
-			#{shoptype},
-			#{telphoneno},
-			#{address},
-			#{shopUser},
-			#{userId},
-			NOW(),
-			#{modifytime},
-			#{activationkey},
+			#{id}, 
+			#{brandname}, 
+			#{areaname}, 
+			#{userId}, 
 			0,
-			#{brandAreaId}
+			NOW(),
+			#{modifytime}
 		)
 	</insert>
 
-    <update id="update" parameterType="com.minshang.erp.system.domain.OrganizationDO">
-        update tb_sys_organization
+    <update id="update" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+        update tb_dini_brand_area
         <set>
-            <if test="parentId != null">`parent_id` = #{parentId},</if>
-            <if test="orgName != null">`org_name` = #{orgName},</if>
-            <if test="orgType != null">`org_type` = #{orgType},</if>
-            <if test="orgLv != null">`org_lv` = #{orgLv},</if>
-            <if test="industryid != null">`industryid` = #{industryid},</if>
-            <if test="shoptype != null">`shoptype` = #{shoptype},</if>
-            <if test="telphoneno != null">`telphoneno` = #{telphoneno},</if>
-            <if test="address != null">`address` = #{address},</if>
-            <if test="shopUser != null">`shop_user` = #{shopUser},</if>
+            <if test="brandname != null">`brandname` = #{brandname},</if>
+            <if test="areaname != null">`areaname` = #{areaname},</if>
             <if test="userId != null">`user_id` = #{userId},</if>
-            <if test="createtime != null">`createtime` = #{createtime},</if>
-            `modifytime` = NOW(),
-            <if test="activationkey != null">`activationkey` = #{activationkey},</if>
             <if test="status != null">`status` = #{status},</if>
-            <if test="brandAreaId != null">`brand_area_id` = #{brandAreaId},</if>
-            <if test="shopmoudleid != null">`shopmoudleid` = #{shopmoudleid}</if>
+            <if test="createtime != null">`createtime` = #{createtime},</if>
+            `modifytime` = NOW()
         </set>
-        where org_id = #{orgId}
+        where id = #{id}
     </update>
 
     <delete id="remove">
-		delete from tb_sys_organization where org_id = #{value}
+		delete from tb_dini_brand_area where id = #{value}
 	</delete>
 
     <delete id="batchRemove">
-        delete from tb_sys_organization where org_id in
-        <foreach item="orgId" collection="array" open="(" separator="," close=")">
-            #{orgId}
+        delete from tb_dini_brand_area where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
         </foreach>
-    </delete>-->
+    </delete>
+
+
+    <update id="changeStatus" parameterType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+  	UPDATE tb_dini_brand_area SET status = #{status}
+	where brandid = #{brandid}
+  </update>
+
+    <select id="areaname" resultType="com.minshang.erp.system.domain.DiniBrandAreaDO">
+		select `id`,`areaname`from tb_dini_brand_area
+	</select>-->
+
+
+    <select id="findByOrgId" resultType="com.minshang.erp.modules.food.entity.Organization">
+        SELECT o.*
+        FROM t_section s
+	    LEFT JOIN t_organization o ON s.org_id = o.id
+        WHERE	s.org_id = #{orgId}
+        GROUP BY o.id
+    </select>
 
 </mapper>

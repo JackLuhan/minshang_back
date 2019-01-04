@@ -12,6 +12,7 @@ import com.minshang.erp.modules.base.service.UserService;
 import cn.hutool.core.util.StrUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.minshang.erp.modules.organization.service.IOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -22,6 +23,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -49,6 +51,9 @@ public class DepartmentController {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Resource
+    private IOrganizationService iOrganizationService;
 
     @Autowired
     private SecurityUtil securityUtil;
@@ -158,4 +163,21 @@ public class DepartmentController {
         });
         return new ResultUtil<List<Department>>().setData(list);
     }
+
+
+//    @RequestMapping(value = "/getDepartmentByCondition", method = RequestMethod.GET)
+//    @ApiOperation(value = "多条件分页获取部门")
+//    public Result<Page<Department>> getDepartmentList(@ModelAttribute Department department, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
+//        Page<Department> page = departmentService.findByCondition(department, searchVo, PageUtil.initPage(pageVo));
+//
+//        for (Department d : page.getContent()) {
+//            List<Organization> list = iOrganizationService.findByOrgId(d.getOrgId());
+//            d.setOrganizations(list);
+//        }
+//
+//        return new ResultUtil<Page<Department>>().setData(page);
+//    }
+
+
+
 }
