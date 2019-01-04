@@ -2,7 +2,9 @@ package com.minshang.erp.modules.food.serviceimpl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.minshang.erp.common.utils.SecurityUtil;
 import com.minshang.erp.common.vo.SearchVo;
+import com.minshang.erp.modules.base.entity.Department;
 import com.minshang.erp.modules.food.dao.FoodTypeDao;
 import com.minshang.erp.modules.food.entity.Food;
 import com.minshang.erp.modules.food.entity.FoodType;
@@ -34,6 +36,8 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     private FoodTypeDao foodTypeDao;
     @Autowired
     private FoodTypeService foodTypeService;
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @Override
     public FoodTypeDao getRepository() {
@@ -56,32 +60,8 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     }
 
     @Override
-    public Page<FoodType> findByCondition(FoodType foodType, SearchVo searchVo, Pageable pageable) {
-        return foodTypeDao.findAll(new Specification<FoodType>() {
-            @Nullable
-            @Override
-            public Predicate toPredicate(Root<FoodType> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                //根据菜品库名字查询
-                Path<String> nameField = root.get("foodTypeName");
-                Path<Date> createTimeField=root.get("createTime");
+    public List<FoodType> findByPid(String pid) {
 
-                List<Predicate> list = new ArrayList<Predicate>();
-
-                //模糊搜素
-                if(StrUtil.isNotBlank(foodType.getFoodTypeName())) {
-                    list.add(cb.like(nameField, '%' + foodType.getFoodTypeName() + '%'));
-                }
-                //创建时间
-                if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
-                    Date start = DateUtil.parse(searchVo.getStartDate());
-                    Date end = DateUtil.parse(searchVo.getEndDate());
-                    list.add(cb.between(createTimeField, start, DateUtil.endOfDay(end)));
-                }
-
-                Predicate[] arr = new Predicate[list.size()];
-                cq.where(list.toArray(arr));
-                return null;
-            }
-        }, pageable);
+        return foodTypeDao.findByPid(pid);
     }
 }

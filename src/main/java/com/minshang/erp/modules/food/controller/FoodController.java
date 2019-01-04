@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author 后羿i
@@ -59,18 +60,10 @@ public class FoodController extends MinShangBaseController<Food, String>{
     }
 
     @RequestMapping(value = "/getFoodByCondition", method = RequestMethod.GET)
-    @ApiOperation(value = "多条件分页获取菜品")
+    @ApiOperation(value = "根据菜品分类id分页获取菜品")
     public Result<Page<Food>> getFoodLibList(@ModelAttribute Food food, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
         Page<Food> page = foodService.findByCondition(food, searchVo, PageUtil.initPage(pageVo));
         return new ResultUtil<Page<Food>>().setData(page);
     }
-
-    /*@RequestMapping(value = "/getFoodByFoodTypeId", method = RequestMethod.POST)
-    @ApiOperation(value = "根据菜品分类id分页获取菜品")
-    public Result<Page<Food>> getFoodByFoodTypeId(@ModelAttribute Food food, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
-        String foodTypeId = food.getFoodTypeId();
-        Page<Food> page = foodService.findByFoodTypeId(foodTypeId, searchVo, PageUtil.initPage(pageVo));
-        return new ResultUtil<Page<Food>>().setData(page);
-    }*/
 
 }

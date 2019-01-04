@@ -36,11 +36,15 @@ spring:
         # IP黑名单
         deny:
   jpa:
+    database: MYSQL
     show-sql: true
     # 自动生成表结构
     generate-ddl: true
     hibernate:
       ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
   # Redis
   redis:
     host: 127.0.0.1

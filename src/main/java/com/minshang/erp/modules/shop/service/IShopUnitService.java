@@ -11,4 +11,5 @@ import com.minshang.erp.modules.shop.entity.ShopUnit;
  * @Version 1.0
  **/
 public interface IShopUnitService extends IService<ShopUnit> {
+    Integer insertShopUnit(ShopUnit shopUnit);
 }
