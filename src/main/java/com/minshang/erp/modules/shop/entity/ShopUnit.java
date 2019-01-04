@@ -5,7 +5,6 @@ import com.minshang.erp.base.MinShangBaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -28,4 +27,7 @@ public class ShopUnit extends MinShangBaseEntity {
 
     @ApiModelProperty(value = "物品单位名称")
     private String shopUnitName;
+
+    /*@OneToMany(targetEntity = ShopGoods.class,mappedBy ="shopUnit" )
+    private List<ShopGoods> shopGoodsList;*/
 }

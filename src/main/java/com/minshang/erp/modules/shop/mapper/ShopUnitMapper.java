@@ -2,6 +2,7 @@ package com.minshang.erp.modules.shop.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.minshang.erp.modules.base.entity.Permission;
+import com.minshang.erp.modules.brandarea.entity.BrandArea;
 import com.minshang.erp.modules.shop.entity.ShopUnit;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,4 +18,6 @@ import java.util.List;
 public interface ShopUnitMapper extends BaseMapper<ShopUnit> {
 
     Integer insertShopUnit(ShopUnit shopUnit);
+
+    List<ShopUnit>findByShopUnitId(@Param("shopUnitId") String shopUnitId);
 }
