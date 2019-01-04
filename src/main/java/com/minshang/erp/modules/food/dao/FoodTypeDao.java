@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface FoodTypeDao extends MinShangBaseDao<FoodType,String> {
 
-    List<FoodType> findByPid(String pid);
+    List<FoodType> findByFoodLibId(String foodLibId);
 }

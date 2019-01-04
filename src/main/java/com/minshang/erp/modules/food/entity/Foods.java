@@ -53,6 +53,9 @@ public class Foods extends MinShangBaseEntity {
     @ApiModelProperty(value = "父id")
     private String parentId;
 
+    @ApiModelProperty(value = "菜品库id")
+    private String foodLibId;
+
     @Transient
     @TableField(exist=false)
     @ApiModelProperty(value = "菜品")

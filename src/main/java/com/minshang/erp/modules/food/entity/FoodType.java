@@ -28,19 +28,19 @@ public class FoodType extends MinShangBaseEntity {
     @ApiModelProperty(value = "菜品库id")
     private String foodLibId;
 
-    @ApiModelProperty(value = "父id")
+   /* @ApiModelProperty(value = "父id")
     //默认为0
-    private String pid = CommonConstant.PARENT_ID;
-
+    private String pid ;
+*/
     @ApiModelProperty(value = "菜品分类名称")
     private String foodTypeName;
 
     @ApiModelProperty(value = "菜品编码")
     private String foodCode;
 
-    @Transient
+  /*  @Transient
     @TableField(exist=false)
     @ApiModelProperty(value = "菜品")
-    private List<Food> foodList;
+    private List<Foods> foodsList;*/
 
 }

@@ -1,26 +1,14 @@
 package com.minshang.erp.modules.food.serviceimpl;
 
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.utils.SecurityUtil;
-import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.base.entity.Department;
 import com.minshang.erp.modules.food.dao.FoodTypeDao;
-import com.minshang.erp.modules.food.entity.Food;
 import com.minshang.erp.modules.food.entity.FoodType;
 import com.minshang.erp.modules.food.service.FoodTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,8 +48,8 @@ public class FoodTypeServiceImpl implements FoodTypeService {
     }
 
     @Override
-    public List<FoodType> findByPid(String pid) {
+    public List<FoodType> findByFoodLibId(String foodLibId) {
 
-        return foodTypeDao.findByPid(pid);
+        return foodTypeDao.findByFoodLibId(foodLibId);
     }
 }

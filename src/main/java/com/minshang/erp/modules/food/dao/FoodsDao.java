@@ -18,7 +18,7 @@ public interface FoodsDao extends MinShangBaseDao<Foods,String> {
      * @param level
      * @return
      */
-    List<Foods> findByLevel(Integer level);
+    List<Foods> findByLevelAndFoodLibId(Integer level,String foodLibId);
 
     /**
      * 通过parendId查找
@@ -26,5 +26,7 @@ public interface FoodsDao extends MinShangBaseDao<Foods,String> {
      * @return
      */
     List<Foods> findByParentId(String parentId);
+
+    List<Foods> findByFoodLibId(String foodLibId);
 
 }

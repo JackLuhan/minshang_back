@@ -10,11 +10,9 @@ import com.minshang.erp.common.utils.SecurityUtil;
 import com.minshang.erp.common.vo.Result;
 import com.minshang.erp.modules.base.entity.User;
 import com.minshang.erp.modules.food.entity.FoodType;
-import com.minshang.erp.modules.food.service.FoodService;
 import com.minshang.erp.modules.food.service.FoodTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -40,8 +38,7 @@ public class FoodTypeController extends MinShangBaseController<FoodType, String>
     private final FoodTypeService foodTypeService;
     @PersistenceContext
     private EntityManager entityManager;
-    @Autowired
-    private FoodService foodService;
+
     @Autowired
     private StringRedisTemplate redisTemplate;
 
@@ -69,23 +66,23 @@ public class FoodTypeController extends MinShangBaseController<FoodType, String>
         }
     }
 
-    @RequestMapping(value = "/getByParentId/{pid}",method = RequestMethod.GET)
-    @ApiOperation(value = "通过父id获取")
-    public Result<List<FoodType>> getByParentId(@PathVariable String pid){
+    @RequestMapping(value = "/getByFoodLibId/{foodLibId}",method = RequestMethod.GET)
+    @ApiOperation(value = "通过菜品库id获取菜品分类信息")
+    public Result<List<FoodType>> getByParentId(@PathVariable String foodLibId){
 
         List<FoodType> list = new ArrayList<>();
         User u = securityUtil.getCurrUser();
-        String key = "foodType::"+pid+":"+u.getId();
+        String key = "foodType::"+foodLibId+":"+u.getId();
         String v = redisTemplate.opsForValue().get(key);
         if(StrUtil.isNotBlank(v)){
             list = new Gson().fromJson(v, new TypeToken<List<FoodType>>(){}.getType());
             return new ResultUtil<List<FoodType>>().setData(list);
         }
-        list = foodTypeService.findByPid(pid);
+        list = foodTypeService.findByFoodLibId(foodLibId);
         // lambda表达式
         list.forEach(item -> {
-            if(!CommonConstant.PARENT_ID.equals(item.getPid())){
-                FoodType parent = foodTypeService.get(item.getPid());
+            if(!CommonConstant.PARENT_ID.equals(item.getFoodLibId())){
+                FoodType parent = foodTypeService.get(item.getFoodLibId());
             }
         });
         redisTemplate.opsForValue().set(key, new Gson().toJson(list));

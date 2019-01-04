@@ -11,6 +11,7 @@ import com.minshang.erp.modules.food.dao.FoodlibOrganizationDao;
 import com.minshang.erp.modules.food.dao.OrganizationDao;
 import com.minshang.erp.modules.food.entity.FoodLib;
 import com.minshang.erp.modules.food.entity.FoodlibOrganization;
+import com.minshang.erp.modules.food.entity.Organization;
 import com.minshang.erp.modules.food.service.FoodLibService;
 import com.minshang.erp.modules.food.service.FoodlibOrganizationService;
 import com.minshang.erp.modules.food.service.OrganizationService;
@@ -52,21 +53,6 @@ public class FoodLibController extends MinShangBaseController<FoodLib, String> {
         return foodLibService;
     }
 
-  /*  @RequestMapping(value = "/getAllList", method = RequestMethod.GET)
-    @ApiOperation(value = "获取全部菜品库")
-    public Result<Object> foodLibGetAll() {
-        //获取所有的菜品库
-        List<FoodLib> foodLibList = foodLibService.getAll();
-        for (FoodLib foodLib : foodLibList) {
-            //根据食品库id获取机构id
-            String orgId = foodlibOrganizationDao.findByFoodLibId(foodLib.getId()).getOrgId();
-            Organization organization = organizationDao.findByParentId(orgId);
-            //根据机构id获取机构对象
-            foodLib.setOrgName(organization.getOrgName());
-        }
-        return new ResultUtil<>().setData(foodLibList);
-    }*/
-
     @RequestMapping(value = "/getFoodLibByCondition", method = RequestMethod.GET)
     @ApiOperation(value = "多条件分页获取菜品库")
     public Result<Page<FoodLib>> getFoodLibList(@ModelAttribute FoodLib foodLib, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
@@ -77,12 +63,15 @@ public class FoodLibController extends MinShangBaseController<FoodLib, String> {
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     @ApiOperation(value = "新增菜品库数据")
     public Result<FoodLib> save(@ModelAttribute FoodLib foodLib) {
+
+        Organization organization = organizationService.get(foodLib.getOrgId());
+        foodLib.setOrgName(organization.getOrgName());
         //保存菜品库信息
         foodLib = foodLibService.save(foodLib);
         FoodlibOrganization foodlibOrganization = new FoodlibOrganization();
         foodlibOrganization.setFoodLibId(foodLib.getId());
         //默认设置为安业公司的
-        foodlibOrganization.setOrgId("-1");
+        foodlibOrganization.setOrgId(foodLib.getOrgId());
         //保存菜品和机构数据id
         foodlibOrganizationService.save(foodlibOrganization);
         return new ResultUtil<FoodLib>().setData(foodLib);

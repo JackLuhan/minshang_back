@@ -17,7 +17,7 @@ import java.util.List;
 public interface FoodPracticeService extends MinShangBaseService<FoodPractice,String> {
     /**
      * @Author 后羿i
-     * @Description //TODO 分页查询
+     * @Description 分页查询
      * @Date
      * @Param
      * @Return
