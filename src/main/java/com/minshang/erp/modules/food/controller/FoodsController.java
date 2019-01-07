@@ -56,7 +56,7 @@ public class FoodsController extends MinShangBaseController<Foods, String>{
     }
 
     @RequestMapping(value = "/getAllFoodsList/{foodLibId}",method = RequestMethod.GET)
-    @ApiOperation(value = "获取全部菜品")
+    @ApiOperation(value = "通过菜品库id获取全部菜品")
     public Result<List<Foods>> getAllFoodsList(@PathVariable String foodLibId){
 
         List<Foods> foodsList = foodsService.findByFoodLibId(foodLibId);
