@@ -39,4 +39,7 @@ public class FoodPractice extends MinShangBaseEntity {
     @ApiModelProperty(value = "机构id")
     private String orgId;
 
+    @ApiModelProperty(value = "菜品库id")
+    private String foodLibId;
+
 }

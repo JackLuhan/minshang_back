@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @ClassName BrandAreaMapper
+ * @InterfaceName BrandAreaMapper
  * @Description 品牌区域mapper
  * @Author lcmaijia
  * @Date 2019/1/2 0002

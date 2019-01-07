@@ -14,4 +14,12 @@ public interface OrganizationService extends MinShangBaseService<Organization,St
 
     Page<Organization> findByCondition(Organization organization, SearchVo searchVo, Pageable pageable);
 
+    /**
+     * 通过机构名获取机构
+     * @param orgName
+     * @return
+     */
+//    @Cacheable(key = "#orgName")
+    Organization findByOrgName(String orgName);
+
 }

@@ -26,4 +26,7 @@ public class FoodLib extends MinShangBaseEntity {
     @ApiModelProperty(value = "机构名称")
     private String orgName;
 
+    @ApiModelProperty(value = "机构id")
+    private String orgId;
+
 }

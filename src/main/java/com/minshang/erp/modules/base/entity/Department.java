@@ -44,4 +44,6 @@ public class Department extends MinShangBaseEntity {
     @TableField(exist=false)
     @ApiModelProperty(value = "父节点名称")
     private String parentTitle;
+
+
 }

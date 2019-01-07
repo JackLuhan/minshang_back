@@ -11,4 +11,5 @@ import java.util.List;
  */
 public interface BrandAreaDao extends MinShangBaseDao<BrandArea,String> {
 
+    List<BrandArea> findByBrandname(String brandname);
 }

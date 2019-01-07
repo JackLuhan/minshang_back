@@ -1,8 +1,7 @@
 package com.minshang.erp.modules.food.entity;
 
-import com.minshang.erp.base.MinShangBaseEntity;
 import com.baomidou.mybatisplus.annotations.TableName;
-import io.swagger.annotations.Api;
+import com.minshang.erp.base.MinShangBaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

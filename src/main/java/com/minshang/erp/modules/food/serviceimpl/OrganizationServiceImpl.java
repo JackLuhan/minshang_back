@@ -3,6 +3,8 @@ package com.minshang.erp.modules.food.serviceimpl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
+import com.minshang.erp.modules.brandarea.entity.BrandArea;
+import com.minshang.erp.modules.brandarea.mapper.BrandAreaMapper;
 import com.minshang.erp.modules.food.dao.OrganizationDao;
 import com.minshang.erp.modules.food.entity.Organization;
 import com.minshang.erp.modules.food.service.OrganizationService;
@@ -20,7 +22,6 @@ import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 机构表接口实现
@@ -33,6 +34,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
     private OrganizationDao organizationDao;
+
+    @Resource
+    private BrandAreaMapper brandAreaMapper;
 
     @Override
     public OrganizationDao getRepository() {
@@ -68,4 +72,19 @@ public class OrganizationServiceImpl implements OrganizationService {
             }
         }, pageable);
     }
+
+    @Override
+    public Organization findByOrgName(String orgName) {
+        List<Organization> list = organizationDao.findByOrgName(orgName);
+        if(list!=null&&list.size()>0){
+            Organization organization = list.get(0);
+            // 关联品牌区域
+            List<BrandArea> brandAreaList = brandAreaMapper.findByBrandAreaId(organization.getId());
+            organization.setBrandAreas(brandAreaList);
+            return organization;
+        }
+        return null;
+    }
+
+
 }

@@ -19,5 +19,5 @@ public interface FoodTypeService extends MinShangBaseService<FoodType,String> {
     //根据id修改菜品分类
     FoodType editFoodType(FoodType foodType);
 
-    List<FoodType> findByPid(String pid);
+    List<FoodType> findByFoodLibId(String findByFoodLibId);
 }

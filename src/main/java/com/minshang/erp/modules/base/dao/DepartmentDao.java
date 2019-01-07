@@ -48,4 +48,7 @@ public interface DepartmentDao extends MinShangBaseDao<Department,String> {
      * @return
      */
     List<Department> findByTitleLikeAndIdInOrderBySortOrder(String title, List<String> departmentIds);
+
+
+
 }

@@ -3,7 +3,6 @@ package com.minshang.erp.modules.food.entity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.minshang.erp.base.MinShangBaseEntity;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.minshang.erp.modules.base.entity.Permission;
 import com.minshang.erp.modules.brandarea.entity.BrandArea;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -53,9 +52,14 @@ public class Organization extends MinShangBaseEntity {
     @ApiModelProperty(value = "品牌区域id")
     private String brandAreaId;
 
+    /*@Transient
+    @TableField(exist=false)
+    @ApiModelProperty(value = "机构品牌区域")
+    private List<OrgBrandArea> orgBrandAreas;*/
+
     @Transient
     @TableField(exist=false)
     @ApiModelProperty(value = "品牌区域")
-    private List<BrandArea> brandArea;
+    private List<BrandArea> brandAreas;
 
 }

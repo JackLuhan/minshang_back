@@ -47,12 +47,18 @@ public class FoodChargeServiceImpl implements FoodChargeService {
                 //根据菜品库名字查询
                 Path<String> nameField = root.get("foodChargeName");
                 Path<Date> createTimeField=root.get("createTime");
+                //根据菜品库id查询
+                Path<String> idField = root.get("foodLibId");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 //模糊搜素
                 if(StrUtil.isNotBlank(foodCharge.getFoodChargeName())) {
                     list.add(cb.like(nameField, '%' + foodCharge.getFoodChargeName() + '%'));
+                }
+                //根据菜品库id查询
+                if(StrUtil.isNotBlank(foodCharge.getFoodLibId())) {
+                    list.add(cb.like(idField, foodCharge.getFoodLibId()));
                 }
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){

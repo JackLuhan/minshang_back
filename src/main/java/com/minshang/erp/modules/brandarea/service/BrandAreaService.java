@@ -16,4 +16,11 @@ import java.util.List;
 public interface BrandAreaService extends MinShangBaseService<BrandArea,String> {
 
     Page<BrandArea> findByCondition(BrandArea brandArea, SearchVo searchVo, Pageable pageable);
+
+    /**
+     * 通过品牌区域名获取机构
+     * @param brandname
+     * @return
+     */
+    BrandArea findByBrandname(String brandname);
 }

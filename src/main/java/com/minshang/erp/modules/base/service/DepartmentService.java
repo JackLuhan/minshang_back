@@ -1,7 +1,10 @@
 package com.minshang.erp.modules.base.service;
 
 import com.minshang.erp.base.MinShangBaseService;
+import com.minshang.erp.common.vo.SearchVo;
 import com.minshang.erp.modules.base.entity.Department;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -34,4 +37,13 @@ public interface DepartmentService extends MinShangBaseService<Department,String
      * @return
      */
     List<Department> findByTitleLikeOrderBySortOrder(String title, Boolean openDataFilter);
+
+//    /**
+//     * 分页查询部门
+//     * @param department
+//     * @param searchVo
+//     * @param pageable
+//     * @return
+//     */
+//    Page<Department> findByCondition(Department department, SearchVo searchVo, Pageable pageable);
 }

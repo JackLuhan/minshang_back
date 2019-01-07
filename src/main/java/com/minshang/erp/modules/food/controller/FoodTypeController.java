@@ -1,28 +1,27 @@
 package com.minshang.erp.modules.food.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.minshang.erp.base.MinShangBaseController;
-import com.minshang.erp.common.utils.PageUtil;
+import com.minshang.erp.common.constant.CommonConstant;
 import com.minshang.erp.common.utils.ResultUtil;
-import com.minshang.erp.common.vo.PageVo;
+import com.minshang.erp.common.utils.SecurityUtil;
 import com.minshang.erp.common.vo.Result;
-import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.food.entity.Food;
+import com.minshang.erp.modules.base.entity.User;
 import com.minshang.erp.modules.food.entity.FoodType;
-import com.minshang.erp.modules.food.service.FoodService;
 import com.minshang.erp.modules.food.service.FoodTypeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,8 +38,12 @@ public class FoodTypeController extends MinShangBaseController<FoodType, String>
     private final FoodTypeService foodTypeService;
     @PersistenceContext
     private EntityManager entityManager;
+
     @Autowired
-    private FoodService foodService;
+    private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private SecurityUtil securityUtil;
 
     @Autowired
     public FoodTypeController(FoodTypeService foodTypeService) {
@@ -62,17 +65,28 @@ public class FoodTypeController extends MinShangBaseController<FoodType, String>
             return new ResultUtil<>().setErrorMsg("修改菜品分类失败");
         }
     }
-    @RequestMapping(value = "/getFoodTypeByCondition", method = RequestMethod.GET)
-    @ApiOperation(value = "多条件分页获取菜品")
-    public Result<Page<FoodType>> getFoodTypeLibList(@ModelAttribute FoodType foodType, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
-        Page<FoodType> page = foodTypeService.findByCondition(foodType, searchVo, PageUtil.initPage(pageVo));
-        for(FoodType ft: page.getContent()){
-            List<Food> foodList = foodService.findByFoodTypeId(ft.getId());
-            ft.setFoodList(foodList);
-            // 清除持久上下文环境 避免后面语句导致持久化
-            entityManager.clear();
+
+    @RequestMapping(value = "/getByFoodLibId/{foodLibId}",method = RequestMethod.GET)
+    @ApiOperation(value = "通过菜品库id获取菜品分类信息")
+    public Result<List<FoodType>> getByParentId(@PathVariable String foodLibId){
+
+        List<FoodType> list = new ArrayList<>();
+        User u = securityUtil.getCurrUser();
+        String key = "foodType::"+foodLibId+":"+u.getId();
+        String v = redisTemplate.opsForValue().get(key);
+        if(StrUtil.isNotBlank(v)){
+            list = new Gson().fromJson(v, new TypeToken<List<FoodType>>(){}.getType());
+            return new ResultUtil<List<FoodType>>().setData(list);
         }
-        return new ResultUtil<Page<FoodType>>().setData(page);
+        list = foodTypeService.findByFoodLibId(foodLibId);
+        // lambda表达式
+        list.forEach(item -> {
+            if(!CommonConstant.PARENT_ID.equals(item.getFoodLibId())){
+                FoodType parent = foodTypeService.get(item.getFoodLibId());
+            }
+        });
+        redisTemplate.opsForValue().set(key, new Gson().toJson(list));
+        return new ResultUtil<List<FoodType>>().setData(list);
     }
 
 }

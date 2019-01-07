@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.minshang.erp.modules.brandarea.entity.BrandArea;
 import com.minshang.erp.modules.brandarea.mapper.BrandAreaMapper;
 import com.minshang.erp.modules.brandarea.service.IBrandAreaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

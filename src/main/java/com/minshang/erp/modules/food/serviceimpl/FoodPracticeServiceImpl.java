@@ -52,6 +52,8 @@ public class FoodPracticeServiceImpl implements FoodPracticeService {
                 //根据菜品库名字查询
                 Path<String> nameField = root.get("foodPracticeName");
                 Path<Date> createTimeField=root.get("createTime");
+                //根据菜品库id查询
+                Path<String> idField = root.get("foodLibId");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
@@ -59,6 +61,11 @@ public class FoodPracticeServiceImpl implements FoodPracticeService {
                 if(StrUtil.isNotBlank(foodPractice.getFoodPracticeName())) {
                     list.add(cb.like(nameField, '%' + foodPractice.getFoodPracticeName() + '%'));
                 }
+                //根据菜品库id查询
+                if(StrUtil.isNotBlank(foodPractice.getFoodLibId())) {
+                    list.add(cb.like(idField, foodPractice.getFoodLibId()));
+                }
+
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
                     Date start = DateUtil.parse(searchVo.getStartDate());

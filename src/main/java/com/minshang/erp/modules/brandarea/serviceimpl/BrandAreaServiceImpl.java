@@ -15,6 +15,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +30,7 @@ import java.util.List;
 @Transactional
 public class BrandAreaServiceImpl implements BrandAreaService {
 
-    @Autowired
+    @Resource
     private BrandAreaDao brandAreaDao;
 
     @Override
@@ -70,5 +71,15 @@ public class BrandAreaServiceImpl implements BrandAreaService {
                 return null;
             }
         }, pageable);
+    }
+
+    @Override
+    public BrandArea findByBrandname(String brandname) {
+        List<BrandArea> list = brandAreaDao.findByBrandname(brandname);
+        if(list!=null&&list.size()>0){
+            BrandArea brandArea = list.get(0);
+            return brandArea;
+        }
+        return null;
     }
 }
