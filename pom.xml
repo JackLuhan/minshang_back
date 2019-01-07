@@ -193,6 +193,11 @@
             <artifactId>easypoi-annotation</artifactId>
             <version>3.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>
