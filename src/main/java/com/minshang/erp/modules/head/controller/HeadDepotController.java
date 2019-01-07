@@ -42,4 +42,43 @@ public class HeadDepotController extends MinShangBaseController<HeadDepot, Strin
         return new ResultUtil<Page<HeadDepot>>().setData(page);
     }
 
+
+    @RequestMapping(value = "/saveHeadDepot", method = RequestMethod.POST)
+    @ResponseBody
+    @ApiOperation(value = "保存总部仓库")
+    public Result<Object> regist(@ModelAttribute HeadDepot headDepot) {
+        // 判断仓库名称是否重复
+        if (headDepotService.findByDepotName(headDepot.getDepotName()) != null) {
+            return new ResultUtil<Object>().setErrorMsg("该机构已被注册");
+        }
+        // 判断仓库编码是否重复
+        if (headDepotService.findByDepotCode(headDepot.getDepotCode()) != null) {
+            return new ResultUtil<Object>().setErrorMsg("该仓库编码已被注册");
+        }
+        HeadDepot hd = getService().save(headDepot);
+        if(hd==null){
+            return new ResultUtil<Object>().setErrorMsg("添加失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("添加成功");
+    }
+
+    @RequestMapping(value = "/updateHeadDepot", method = RequestMethod.PUT)
+    @ResponseBody
+    @ApiOperation(value = "更新总部仓库")
+    public Result<Object> editHeadDepot(@ModelAttribute HeadDepot headDepot) {
+        // 判断仓库名称是否重复
+        if (headDepotService.findByDepotName(headDepot.getDepotName()) != null) {
+            return new ResultUtil<Object>().setErrorMsg("该仓库名称已被注册");
+        }
+        // 判断仓库编码是否重复
+        if (headDepotService.findByDepotCode(headDepot.getDepotCode()) != null) {
+            return new ResultUtil<Object>().setErrorMsg("该仓库编码已被注册");
+        }
+        HeadDepot ba = getService().update(headDepot);
+        if(ba==null){
+            return new ResultUtil<Object>().setErrorMsg("修改失败");
+        }
+        return new ResultUtil<Object>().setSuccessMsg("修改成功");
+    }
+
 }

@@ -3,10 +3,11 @@ package com.minshang.erp.modules.head.serviceimpl;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.brandarea.entity.BrandArea;
-import com.minshang.erp.modules.head.dao.HeadDepotDao;
-import com.minshang.erp.modules.head.entity.HeadDepot;
-import com.minshang.erp.modules.head.service.HeadDepotService;
+import com.minshang.erp.modules.head.dao.HeadOrderDao;
+import com.minshang.erp.modules.head.entity.HeadOrder;
+import com.minshang.erp.modules.head.entity.HeadSupplier;
+import com.minshang.erp.modules.head.mapper.HeadSupplierMapper;
+import com.minshang.erp.modules.head.service.HeadOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,43 +17,47 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 总部仓库接口实现
+ * 总部订单管理接口实现
  * @author lcmaijia
  */
 @Slf4j
 @Service
 @Transactional
-public class HeadDepotServiceImpl implements HeadDepotService {
+public class HeadOrderServiceImpl implements HeadOrderService {
 
     @Autowired
-    private HeadDepotDao headDepotDao;
+    private HeadOrderDao headOrderDao;
+    @Resource
+    private HeadSupplierMapper headSupplierMapper;
 
     @Override
-    public HeadDepotDao getRepository() {
-        return headDepotDao;
+    public HeadOrderDao getRepository() {
+        return headOrderDao;
     }
 
+
     @Override
-    public Page<HeadDepot> findByCondition(HeadDepot headDepot, SearchVo searchVo, Pageable pageable) {
-        return headDepotDao.findAll(new Specification<HeadDepot>() {
+    public Page<HeadOrder> findByCondition(HeadOrder headOrder, SearchVo searchVo, Pageable pageable) {
+        return headOrderDao.findAll(new Specification<HeadOrder>() {
             @Nullable
             @Override
-            public Predicate toPredicate(Root<HeadDepot> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-                //根据总部仓库名字查询
-                Path<String> nameField = root.get("depotName");
+            public Predicate toPredicate(Root<HeadOrder> root, CriteriaQuery<?> cq, CriteriaBuilder cb) {
+                //根据单据号查询
+                Path<String> nameField = root.get("documentNo");
                 Path<Date> createTimeField=root.get("createTime");
 
                 List<Predicate> list = new ArrayList<Predicate>();
 
                 //模糊搜素
-                if(StrUtil.isNotBlank(headDepot.getDepotName())) {
-                    list.add(cb.like(nameField, '%' + headDepot.getDepotName() + '%'));
+                if(StrUtil.isNotBlank(headOrder.getDocumentNo())) {
+                    list.add(cb.like(nameField, '%' + headOrder.getDocumentNo() + '%'));
                 }
                 //创建时间
                 if(StrUtil.isNotBlank(searchVo.getStartDate())&&StrUtil.isNotBlank(searchVo.getEndDate())){
@@ -69,24 +74,15 @@ public class HeadDepotServiceImpl implements HeadDepotService {
     }
 
     @Override
-    public HeadDepot findByDepotName(String depotName) {
-        List<HeadDepot> list = headDepotDao.findByDepotName(depotName);
+    public HeadOrder findByDocumentNo(String documentNo) {
+        List<HeadOrder> list = headOrderDao.findByDocumentNo(documentNo);
         if(list!=null&&list.size()>0){
-            HeadDepot headDepot = list.get(0);
-            return headDepot;
+            HeadOrder headOrder = list.get(0);
+            // 关联总部仓库
+            List<HeadSupplier> headSupplierList = headSupplierMapper.findByHeadSupplierId(headOrder.getId());
+            headOrder.setHeadSuppliers(headSupplierList);
+            return headOrder;
         }
         return null;
     }
-
-    @Override
-    public HeadDepot findByDepotCode(String depotCode) {
-        List<HeadDepot> list = headDepotDao.findByDepotCode(depotCode);
-        if(list!=null&&list.size()>0){
-            HeadDepot headDepot = list.get(0);
-            return headDepot;
-        }
-        return null;
-    }
-
-
 }

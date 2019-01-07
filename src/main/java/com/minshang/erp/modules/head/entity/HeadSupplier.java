@@ -31,7 +31,7 @@ public class HeadSupplier extends MinShangBaseEntity {
     @ApiModelProperty(value = "联系电话")
     private String linkmanPhone;
 
-    @ApiModelProperty(value = "结算方式")
+    @ApiModelProperty(value = "结算方式0:货到付款1日结2月结")
     private String sfds;
 
     @ApiModelProperty(value = "备注")

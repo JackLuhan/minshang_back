@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.minshang.erp.common.vo.SearchVo;
 import com.minshang.erp.modules.head.dao.HeadSupplierDao;
+import com.minshang.erp.modules.head.entity.HeadDepot;
 import com.minshang.erp.modules.head.entity.HeadSupplier;
 import com.minshang.erp.modules.head.service.HeadSupplierService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,5 +66,25 @@ public class HeadSupplierServiceImpl implements HeadSupplierService {
                 return null;
             }
         }, pageable);
+    }
+
+    @Override
+    public HeadSupplier findBySupplierName(String supplierName) {
+        List<HeadSupplier> list = headSupplierDao.findBySupplierName(supplierName);
+        if(list!=null&&list.size()>0){
+            HeadSupplier headSupplier = list.get(0);
+            return headSupplier;
+        }
+        return null;
+    }
+
+    @Override
+    public HeadSupplier findBySupplierCode(String supplierCode) {
+        List<HeadSupplier> list = headSupplierDao.findBySupplierCode(supplierCode);
+        if(list!=null&&list.size()>0){
+            HeadSupplier headSupplier = list.get(0);
+            return headSupplier;
+        }
+        return null;
     }
 }

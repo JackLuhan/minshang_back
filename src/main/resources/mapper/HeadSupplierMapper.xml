@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.minshang.erp.modules.head.mapper.HeadSupplierMapper">
+
+    <select id="findByHeadSupplierId" resultType="com.minshang.erp.modules.head.entity.HeadSupplier">
+        SELECT	s.supplier_name
+        FROM t_head_order o
+        LEFT JOIN t_head_supplier s ON o.supplier_id = s.id
+        WHERE	o.supplier_id = #{supplierId}
+        GROUP BY	s.id
+    </select>
+
+</mapper>
