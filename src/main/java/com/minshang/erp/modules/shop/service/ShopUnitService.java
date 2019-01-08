@@ -7,8 +7,6 @@ import com.minshang.erp.modules.shop.entity.ShopUnit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 /**
  * 门店物品单位接口
  * @author 后羿i
