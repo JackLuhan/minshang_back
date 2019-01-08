@@ -7,8 +7,6 @@ import com.minshang.erp.common.utils.ResultUtil;
 import com.minshang.erp.common.vo.PageVo;
 import com.minshang.erp.common.vo.Result;
 import com.minshang.erp.common.vo.SearchVo;
-import com.minshang.erp.modules.brandarea.entity.BrandArea;
-import com.minshang.erp.modules.head.entity.HeadOrder;
 import com.minshang.erp.modules.head.entity.HeadOrder;
 import com.minshang.erp.modules.head.entity.HeadSupplier;
 import com.minshang.erp.modules.head.service.HeadOrderService;
