@@ -13,9 +13,9 @@ import javax.persistence.Table;
  */
 @Data
 @Entity
-@Table(name = "t_shop_buyer_order")
-@TableName("t_shop_buyer_order")
-public class ShopBuyerOrder extends MinShangBaseEntity {
+@Table(name = "t_shop_goods_order")
+@TableName("t_shop_goods_order")
+public class ShopGoodsOrder extends MinShangBaseEntity {
 
     private static final long serialVersionUID = 1L;
 
