@@ -2,8 +2,13 @@ package com.minshang.erp.modules.food.serviceimpl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.minshang.erp.common.constant.CommonConstant;
 import com.minshang.erp.common.vo.SearchVo;
+import com.minshang.erp.modules.food.dao.FoodLibDao;
+import com.minshang.erp.modules.food.dao.FoodSpecDao;
 import com.minshang.erp.modules.food.dao.FoodsDao;
+import com.minshang.erp.modules.food.entity.FoodLib;
+import com.minshang.erp.modules.food.entity.FoodSpec;
 import com.minshang.erp.modules.food.entity.Foods;
 import com.minshang.erp.modules.food.service.FoodsService;
 import com.minshang.erp.modules.shop.dao.ShopUnitDao;
@@ -36,6 +41,10 @@ public class FoodsServiceImpl implements FoodsService {
     private FoodsDao foodsDao;
     @Resource
     private ShopUnitDao shopUnitDao;
+    @Resource
+    private FoodLibDao foodLibDao;
+    @Resource
+    private FoodSpecDao foodSpecDao;
     @Autowired
     private FoodsService foodsService;
 
@@ -53,9 +62,24 @@ public class FoodsServiceImpl implements FoodsService {
      **/
     @Override
     public Foods saveFoods(Foods foods) {
-        //通过物品单位id获取物品名称
-        ShopUnit shopUnit = shopUnitDao.getOne(foods.getShopUnitId());
-        foods.setShopUnitName(shopUnit.getShopUnitName());
+        //如果菜品的级别是1的话 则设置名称为空
+        if(foods.getLevel().equals(CommonConstant.LEVEL_ONE)){
+            foods.setShopUnitName("");
+            foods.setShopUnitName("");
+            foods.setFoodSpecName("");
+            foods.setParentId("");
+        }else {
+            //通过物品单位id获取物品名称
+            ShopUnit shopUnit = shopUnitDao.getOne(foods.getShopUnitId());
+            foods.setShopUnitName(shopUnit.getShopUnitName());
+            //通过菜品库id获取菜品库名称
+            FoodLib foodLib = foodLibDao.getOne(foods.getFoodLibId());
+            foods.setFoodLibName(foodLib.getFoodLibName());
+            //通过菜品分类id获取菜品库名称
+            FoodSpec foodSpec = foodSpecDao.getOne(foods.getFoodSpecId());
+            foods.setFoodSpecName(foodSpec.getFoodSpecName());
+        }
+
         return foodsDao.save(foods);
     }
 
@@ -63,8 +87,14 @@ public class FoodsServiceImpl implements FoodsService {
     public Foods editFoods(Foods foods) {
         //通过物品单位id获取物品名称
         ShopUnit shopUnit = shopUnitDao.getOne(foods.getShopUnitId());
+        //通过菜品库id获取菜品库名称
+        FoodLib foodLib = foodLibDao.getOne(foods.getFoodLibId());
+        //通过菜品分类id获取菜品库名称
+        FoodSpec foodSpec = foodSpecDao.getOne(foods.getFoodSpecId());
         Foods foodDaoOne = foodsDao.getOne(foods.getId());
         foodDaoOne.setShopUnitName(shopUnit.getShopUnitName());
+        foodDaoOne.setFoodLibName(foodLib.getFoodLibName());
+        foodDaoOne.setFoodSpecName(foodSpec.getFoodSpecName());
         foodDaoOne.setName(foods.getName());
         foodDaoOne.setFoodPicture(foods.getFoodPicture());
         foodDaoOne.setFoodPrice(foods.getFoodPrice());
@@ -108,6 +138,18 @@ public class FoodsServiceImpl implements FoodsService {
     @Override
     public List<Foods> findByFoodLibId(String foodLibId) {
         return foodsDao.findByFoodLibId(foodLibId);
+    }
+
+    /**
+     * @Author 后羿i
+     * @Description 根据菜品库id和菜品规格id查询属于该规格下的菜品数据
+     * @Date  16:24
+     * @Param [foodLibId, foodSpecId]
+     * @Return java.util.List<com.minshang.erp.modules.food.entity.Foods>
+     **/
+    @Override
+    public List<Foods> findByFoodLibIdAndFoodSpecId(String foodLibId,String foodSpecId) {
+        return foodsDao.findByFoodLibIdAndFoodSpecId(foodLibId,foodSpecId);
     }
 
     /**

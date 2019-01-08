@@ -18,27 +18,25 @@ import java.io.OutputStream;
  * @author houyi
  */
 @Slf4j
-
-
 public class MinShangGenerator {
 
     /**
      * 实体类名
      * 建议仅需修改
      */
-    private static final String className = "ShopGoods";
+    private static final String className = "Foods";
 
     /**
      * 类说明描述
      * 建议仅需修改
      */
-    private static final String description = "原材料";
+    private static final String description = "菜品";
 
     /**
      * 作者名
      * 建议仅需修改
      */
-    private static final String author = "Y。";
+    private static final String author = "后羿i";
 
     /**
      * 数据库表名前缀
@@ -55,31 +53,31 @@ public class MinShangGenerator {
      * 实体类对应包
      * (文件自动生成至该包下)
      */
-    private static final String entityPackage = "com.minshang.erp.modules.shop.entity";
+    private static final String entityPackage = "com.minshang.erp.modules.food.entity";
 
     /**
      * dao对应包
      * (文件自动生成至该包下)
      */
-    private static final String daoPackage = "com.minshang.erp.modules.shop.dao";
+    private static final String daoPackage = "com.minshang.erp.modules.food.dao";
 
     /**
      * service对应包
      * (文件自动生成至该包下)
      */
-    private static final String servicePackage = "com.minshang.erp.modules.shop.service";
+    private static final String servicePackage = "com.minshang.erp.modules.food.service";
 
     /**
      * serviceImpl对应包
      * (文件自动生成至该包下)
      */
-    private static final String serviceImplPackage = "com.minshang.erp.modules.shop.serviceimpl";
+    private static final String serviceImplPackage = "com.minshang.erp.modules.food.serviceimpl";
 
     /**
      * controller对应包
      * (文件自动生成至该包下)
      */
-    private static final String controllerPackage = "com.minshang.erp.modules.shop.controller";
+    private static final String controllerPackage = "com.minshang.erp.modules.food.controller";
 
     /**
      * 运行该主函数即可生成代码

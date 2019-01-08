@@ -40,9 +40,19 @@ public class FoodsController extends MinShangBaseController<Foods, String>{
     @RequestMapping(value = "/saveFoods",method = RequestMethod.POST)
     @ApiOperation(value = "添加菜品")
     public Result<Foods> saveFood(@ModelAttribute Foods foods){
-
+        List<Foods> foodsList = foodsService.getAll();
+        for (Foods foods1 : foodsList) {
+            if (foods.getName().equals(foods1.getName())){
+                return new ResultUtil<Foods>().setErrorMsg(500,"菜品名字重复");
+            }
+        }
         Foods food = foodsService.saveFoods(foods);
-        return new ResultUtil<Foods>().setData(food);
+        if (food !=null){
+            return new ResultUtil<Foods>().setSuccessMsg("菜品数据保存成功");
+        }else {
+            return new ResultUtil<Foods>().setErrorMsg(500,"没有该菜品数据");
+        }
+
     }
 
     @RequestMapping(value = "/editFoods",method = RequestMethod.POST)

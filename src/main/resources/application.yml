@@ -15,12 +15,12 @@ server:
 spring:
   # 数据源
   datasource:
-    url: jdbc:log4jdbc:mysql://47.104.134.122:3306/minshang?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://47.104.134.122:3306/minshang?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     # Jasypt加密 可到common-utils中找到JasyptUtil加解密工具类生成加密结果 格式为ENC(加密结果)
     password: ENC(p0Z10+B8rCWLYJuzCZ3e0A==)
     type: com.alibaba.druid.pool.DruidDataSource
-    driverClassName: net.sf.log4jdbc.DriverSpy
+    driverClassName: com.mysql.jdbc.Driver
     # Druid StatViewServlet配置
     druid:
       stat-view-servlet:
@@ -196,10 +196,6 @@ mybatis-plus:
 # 日志
 logging:
   level:
-    org:
-      hibernate:
-        SQL: DEBUG
-    com:
-      customer: INFO
-  file: minshang-logs/minshang.log
+    root: info
+    com.minshang.erp: debug
 
