@@ -26,19 +26,19 @@ public class MinShangGenerator {
      * 实体类名
      * 建议仅需修改
      */
-    private static final String className = "Section";
+    private static final String className = "ShopGoods";
 
     /**
      * 类说明描述
      * 建议仅需修改
      */
-    private static final String description = "部门";
+    private static final String description = "原材料";
 
     /**
      * 作者名
      * 建议仅需修改
      */
-    private static final String author = "lcmaijia";
+    private static final String author = "Y。";
 
     /**
      * 数据库表名前缀
@@ -55,31 +55,31 @@ public class MinShangGenerator {
      * 实体类对应包
      * (文件自动生成至该包下)
      */
-    private static final String entityPackage = "com.minshang.erp.modules.section.entity";
+    private static final String entityPackage = "com.minshang.erp.modules.shop.entity";
 
     /**
      * dao对应包
      * (文件自动生成至该包下)
      */
-    private static final String daoPackage = "com.minshang.erp.modules.section.dao";
+    private static final String daoPackage = "com.minshang.erp.modules.shop.dao";
 
     /**
      * service对应包
      * (文件自动生成至该包下)
      */
-    private static final String servicePackage = "com.minshang.erp.modules.section.service";
+    private static final String servicePackage = "com.minshang.erp.modules.shop.service";
 
     /**
      * serviceImpl对应包
      * (文件自动生成至该包下)
      */
-    private static final String serviceImplPackage = "com.minshang.erp.modules.section.serviceimpl";
+    private static final String serviceImplPackage = "com.minshang.erp.modules.shop.serviceimpl";
 
     /**
      * controller对应包
      * (文件自动生成至该包下)
      */
-    private static final String controllerPackage = "com.minshang.erp.modules.section.controller";
+    private static final String controllerPackage = "com.minshang.erp.modules.shop.controller";
 
     /**
      * 运行该主函数即可生成代码

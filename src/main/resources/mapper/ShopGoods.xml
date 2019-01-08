@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.minshang.erp.modules.shop.dao.ShopGoodsDao">
+
+    <select id="get" resultType="com.minshang.erp.modules.shop.entity.ShopGoods">
+		select `id`,`unit_id`,`goods_code`,`goods_name`,`goods_type`,`goods_price`,`goods_spec`,`shop_unit_name`,`headquarters_minimum_inventory`,`headquarters_highest_inventory`,`storage_method`,`expend_unit`,`order_type`,`check_type`,`status` from tb_shop_goods where goods_id = #{value}
+	</select>
+
+    <select id="list" resultType="com.minshang.erp.modules.shop.entity.ShopGoods">
+        SELECT g.id,g.goods_code,g.goods_name,g.goods_type,g.goods_price,g.goods_spec,u.shop_unit_name,
+        g.headquarters_highest_inventory,g.headquarters_minimum_inventory,g.storage_method,g.expend_unit,g.order_type,g.check_type,g.`status`
+        FROM t_shop_goods g,t_shop_unit u
+        WHERE g.unit_id = u.id
+        <if test="id != null and id != ''"> and id = #{id} </if>
+        <if test="unitId != null and unitId != ''"> and unit_id = #{unitId} </if>
+        <if test="goodsCode != null and goodsCode != ''"> and goods_code = #{goodsCode} </if>
+        <if test="goodsName != null and goodsName != ''"> and goods_name = #{goodsName} </if>
+        <if test="goodsType != null and goodsType != ''"> and goods_type = #{goodsType} </if>
+        <if test="goodsPrice != null and goodsPrice != ''"> and goods_price = #{goodsPrice} </if>
+        <if test="goodsSpec != null and goodsSpec != ''"> and goods_spec = #{goodsSpec} </if>
+        <if test="shopUnitName != null and shopUnitName != ''"> and shop_unit_name = #{shopUnitName} </if>
+        <if test="headquartersMinimumInventory != null and headquartersMinimumInventory != ''"> and headquarters_minimum_inventory = #{headquartersMinimumInventory} </if>
+        <if test="headquartersHighestInventory != null and headquartersHighestInventory != ''"> and headquarters_highest_inventory = #{headquartersHighestInventory} </if>
+        <if test="storageMethod != null and storageMethod != ''"> and storage_method = #{storageMethod} </if>
+        <if test="expendUnit != null and expendUnit != ''"> and expend_unit = #{expendUnit} </if>
+        <if test="orderType != null and orderType != ''"> and order_type = #{orderType} </if>
+        <if test="checkType != null and checkType != ''"> and check_type = #{checkType} </if>
+        <if test="status != null and status != ''"> and status = #{status} </if>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from tb_shop_goods
+        <where>
+            <if test="id != null and id != ''"> and id = #{id} </if>
+            <if test="unitId != null and unitId != ''"> and unit_id = #{unitId} </if>
+            <if test="goodsCode != null and goodsCode != ''"> and goodsCode = #{goodsCode} </if>
+            <if test="goodsName != null and goodsName != ''"> and goods_name = #{goodsName} </if>
+            <if test="goodsType != null and goodsType != ''"> and goods_type = #{goodsType} </if>
+            <if test="goodsPrice != null and goodsPrice != ''"> and goods_price = #{goodsPrice} </if>
+            <if test="goodsSpec != null and goodsSpec != ''"> and goods_spec = #{goodsSpec} </if>
+            <if test="shopUnitName != null and shopUnitName != ''"> and shop_unit_name = #{shopUnitName} </if>
+            <if test="headquartersMinimumInventory != null and headquartersMinimumInventory != ''"> and headquarters_minimum_inventory = #{headquartersMinimumInventory} </if>
+            <if test="headquartersHighestInventory != null and headquartersHighestInventory != ''"> and headquarters_highest_inventory = #{headquartersHighestInventory} </if>
+            <if test="storageMethod != null and storageMethod != ''"> and storage_method = #{storageMethod} </if>
+            <if test="expendUnit != null and expendUnit != ''"> and expend_unit = #{expendUnit} </if>
+            <if test="orderType != null and orderType != ''"> and order_type = #{orderType} </if>
+            <if test="checkType != null and checkType != ''"> and check_type = #{checkType} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.minshang.erp.modules.shop.entity.ShopGoods">
+		insert into tb_shop_goods
+		(
+			`id`,
+			`unit_id`,
+			`goodsCode`,
+			`goods_name`,
+			`goods_type`,
+			`goods_price`,
+			`goods_spec`,
+			`shop_unit_name`,
+			`headquarters_minimum_inventory`,
+			`headquarters_highest_inventory`,
+			`storage_method`,
+			`expend_unit`,
+			`order_type`,
+			`check_type`,
+			`status`
+		)
+		values
+		(
+			#{id},
+			#{unitId},
+			#{goodsCode},
+			#{goodsName},
+			#{goodsType},
+			#{goodsPrice},
+			#{goodsSpec},
+			#{shopUnitName},
+			#{headquartersMinimumInventory},
+			#{headquartersHighestInventory},
+			#{storageMethod},
+			#{expendUnit},
+			#{orderType},
+			#{checkType},
+			#{status}
+		)
+	</insert>
+
+    <update id="update" parameterType="com.minshang.erp.modules.shop.entity.ShopGoods">
+        update tb_shop_goods
+        <set>
+            <if test="unitId != null">`unit_id` = #{unitId}, </if>
+            <if test="goodsCode != null">`goodsCode` = #{goodsCode}, </if>
+            <if test="goodsName != null">`goods_name` = #{goodsName}, </if>
+            <if test="goodsType != null">`goods_type` = #{goodsType}, </if>
+            <if test="goodsPrice != null">`goods_price` = #{goodsPrice}, </if>
+            <if test="goodsSpec != null">`goods_spec` = #{goodsSpec}, </if>
+            <if test="shopUnitName != null">`shop_unit_name` = #{shopUnitName}, </if>
+            <if test="headquartersMinimumInventory != null">`headquarters_minimum_inventory` = #{headquartersMinimumInventory}, </if>
+            <if test="headquartersHighestInventory != null">`headquarters_highest_inventory` = #{headquartersHighestInventory}, </if>
+            <if test="storageMethod != null">`storage_method` = #{storageMethod}, </if>
+            <if test="expendUnit != null">`expend_unit` = #{expendUnit}, </if>
+            <if test="orderType != null">`order_type` = #{orderType}, </if>
+            <if test="checkType != null">`check_type` = #{checkType}, </if>
+            <if test="status != null">`status` = #{status}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="remove">
+		delete from tb_shop_goods where id = #{value}
+	</delete>
+
+    <delete id="batchRemove">
+        delete from tb_shop_goods where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{goodsId}
+        </foreach>
+    </delete>
+
+</mapper>

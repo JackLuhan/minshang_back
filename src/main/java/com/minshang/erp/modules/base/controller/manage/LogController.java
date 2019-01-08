@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @Api(description = "日志管理接口")
+
+
 @RequestMapping("/minshang/log")
 @Transactional
 public class LogController{
