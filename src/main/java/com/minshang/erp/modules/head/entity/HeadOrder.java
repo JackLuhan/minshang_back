@@ -48,7 +48,7 @@ public class HeadOrder extends MinShangBaseEntity {
     private Date deliveryTime;
 
     @Transient
-    @TableField(exist=false)
+    @TableField(exist = false)
     @ApiModelProperty(value = "供应商管理")
     private List<HeadSupplier> headSuppliers;
 

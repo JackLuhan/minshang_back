@@ -57,7 +57,7 @@ public class BrandAreaController extends MinShangBaseController<BrandArea, Strin
     public Result<Object> regist(@ModelAttribute BrandArea brandArea) {
         // 判断部门名是否重复
         if (brandAreaService.findByBrandname(brandArea.getBrandname()) != null) {
-            return new ResultUtil<Object>().setErrorMsg("该机构已被注册");
+            return new ResultUtil<Object>().setErrorMsg("该品牌名称已重复");
         }
         BrandArea ba = getService().save(brandArea);
         if(ba==null){
