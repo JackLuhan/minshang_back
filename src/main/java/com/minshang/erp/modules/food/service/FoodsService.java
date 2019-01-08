@@ -56,6 +56,15 @@ public interface FoodsService extends MinShangBaseService<Foods,String> {
      **/
     List<Foods> findByFoodLibId(String foodLibId);
 
+    /**
+     * @Author 后羿i
+     * @Description 根据菜品库id和菜品规格id查询属于该规格下的菜品数据
+     * @Date  15:31
+     * @Param [foodLibId]
+     * @Return java.util.List<com.minshang.erp.modules.food.entity.Foods>
+     **/
+    List<Foods> findByFoodLibIdAndFoodSpecId(String foodLibId,String foodSpecId);
+
 
     /*Page<Foods> findByLevel(Integer level);
     Page<Foods> findByParentId(String parentId);*/
