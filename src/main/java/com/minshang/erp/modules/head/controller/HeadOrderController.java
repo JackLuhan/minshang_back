@@ -13,6 +13,7 @@ import com.minshang.erp.modules.head.entity.HeadOrder;
 import com.minshang.erp.modules.head.entity.HeadSupplier;
 import com.minshang.erp.modules.head.service.HeadOrderService;
 import com.minshang.erp.modules.head.service.HeadSupplierService;
+import com.minshang.erp.modules.head.service.IHeadSupplierService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lcmaijia
@@ -42,6 +44,8 @@ public class HeadOrderController extends MinShangBaseController<HeadOrder, Strin
     private HeadSupplierService headSupplierService;
     @Autowired
     private StringRedisTemplate redisTemplate;
+    @Resource
+    private IHeadSupplierService iHeadSupplierService;
 
     @Override
     public HeadOrderService getService() {
@@ -54,6 +58,12 @@ public class HeadOrderController extends MinShangBaseController<HeadOrder, Strin
     @ApiOperation(value = "多条件分页获取总部订单管理")
     public Result<Page<HeadOrder>> getHeadOrderList(@ModelAttribute HeadOrder headOrder, @ModelAttribute SearchVo searchVo, @ModelAttribute PageVo pageVo) {
         Page<HeadOrder> page = headOrderService.findByCondition(headOrder, searchVo, PageUtil.initPage(pageVo));
+
+        for (HeadOrder order : page.getContent()) {
+            List<HeadSupplier> list = iHeadSupplierService.findByHeadSupplierId(order.getSupplierId());
+            order.setHeadSuppliers(list);
+        }
+
         return new ResultUtil<Page<HeadOrder>>().setData(page);
     }
 
