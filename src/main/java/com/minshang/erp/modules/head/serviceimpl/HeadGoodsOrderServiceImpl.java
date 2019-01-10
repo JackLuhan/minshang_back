@@ -66,7 +66,7 @@ public class HeadGoodsOrderServiceImpl implements HeadGoodsOrderService {
     public HeadGoodsOrder saveHeadGoodsOrder(HeadGoodsOrder headGoodsOrder) {
         ShopUnit shopUnit = shopUnitService.get(headGoodsOrder.getShopUnitId());
         ShopGoods shopGoods = shopGoodsService.get(headGoodsOrder.getShopGoodsId());
-        HeadOrder headOrder = headOrderService.get(headGoodsOrder.getHeadrderOId());
+        HeadOrder headOrder = headOrderService.get(headGoodsOrder.getHeadOrderId());
         headGoodsOrder.setShopUnitName(shopUnit.getShopUnitName());
         headGoodsOrder.setGoodsCode(shopGoods.getGoodsCode());
         headGoodsOrder.setGoodsName(shopGoods.getGoodsName());
@@ -83,7 +83,7 @@ public class HeadGoodsOrderServiceImpl implements HeadGoodsOrderService {
         HeadGoodsOrder headGoodsOrderOne = headGoodsOrderDao.getOne(headGoodsOrder.getId());
         ShopUnit shopUnitDaoOne = shopUnitDao.getOne(headGoodsOrder.getShopUnitId());
         ShopGoods shopGoodsDaoOne = shopGoodsDao.getOne(headGoodsOrder.getShopGoodsId());
-        HeadOrder orderDaoOne = headOrderDao.getOne(headGoodsOrder.getHeadrderOId());
+        HeadOrder orderDaoOne = headOrderDao.getOne(headGoodsOrder.getHeadOrderId());
         headGoodsOrderOne.setShopUnitName(shopUnitDaoOne.getShopUnitName());
         headGoodsOrderOne.setGoodsName(shopGoodsDaoOne.getGoodsName());
         headGoodsOrderOne.setGoodsPrice(shopGoodsDaoOne.getGoodsPrice());
